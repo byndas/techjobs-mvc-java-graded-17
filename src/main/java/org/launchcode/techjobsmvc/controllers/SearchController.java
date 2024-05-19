@@ -24,10 +24,8 @@ public class SearchController {
     }
 
 // TODO #3: create handler to process search request & render updated search view
-    @PostMapping("/results") // must match form action
+    @PostMapping("results") // must match form action
     public String displaySearchResults(Model model, @RequestParam String searchType, @RequestParam String searchTerm) {
-//        System.out.println(searchType);
-//        System.out.println(searchTerm);
         ArrayList<Job> jobs;
         model.addAttribute("columns", columnChoices);
         if (searchType.equals("all")) {
