@@ -29,17 +29,15 @@ public class SearchController {
         ArrayList<Job> jobs;
         model.addAttribute("columns", columnChoices);
         if (searchType.equals("all")) {
-            jobs = JobData.findAll();
             model.addAttribute("title", "Jobs With All: "+searchTerm);
         }
         else {
-            jobs = JobData.findByColumnAndValue(searchType, searchTerm);
-
             model.addAttribute(
                 "title",
                 "Jobs With "+searchType+": "+searchTerm
             );
         }
+        jobs = JobData.findByColumnAndValue(searchType, searchTerm);
         model.addAttribute("jobs", jobs);
         return "search";
     }
