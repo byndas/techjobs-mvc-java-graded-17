@@ -8,7 +8,7 @@
       <!-- TODO #1 - display each job result in table -->
       <th:block th:each="job : ${jobs}">
         <table class="job-listing">
-          <tbody><tr>
+          <tr>
             <td>ID</td>
             <td th:text="${job.id}"></td>
           </tr>
@@ -32,7 +32,7 @@
             <td>Skill</td>
             <td th:text="${job.coreCompetency}"></td>
           </tr>
-          </tbody></table>
+          </table>
       </th:block>
     </div>
   </body>
