@@ -6,9 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.HashMap;
 
-/**
- * Created by LaunchCode
- */
 @Controller
 public class HomeController {
 
@@ -23,6 +20,5 @@ public class HomeController {
 
         return "index";
     }
-
 }
 
