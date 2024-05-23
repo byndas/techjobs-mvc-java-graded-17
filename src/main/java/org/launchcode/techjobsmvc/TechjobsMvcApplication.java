@@ -14,41 +14,43 @@ public class TechjobsMvcApplication {
 ASSIGNMENT OUTLINE:
 
 “model” is in models.JobData class
-this class isn’t a typical MVC/OOP model
+	which isn’t a typical MVC/OOP model
 
 JobData class serves same purpose as before
 	reading data from job_data.csv file
 	  to store in usable format --> ArrayList of Job objects
 
-path to job_data.csv changed to src/main/resources folder
+path to job_data.csv changed to src/main/resources
 
 use static methods provided by JobData in controllers
-review their familiar functionality as you go
+	review their functionality as you go
 
 Controllers:
 
 HomeController --> only one handler, index() displaying index.html home page
 
 ListController --> displays either:
-  table showing all Job field options (employer, location, coreCompetency, positionType)
-		or selected job detail list
+  table showing all Job field options
+    employer, location, coreCompetency, positionType
+	or selected job detail list
 
 	/list page has an incomplete “All” table column
 
 	constructor populates columnChoices & tableChoices with values
 	  HashMaps are same as in console app
-	    providing centralized collection of different List & Search options
-	      presented throughout user interface
+	    providing centralized collection of different List
+	      & Search options presented throughout user interface
 
-	list() displays table of clickable links for each job category
-	listJobsByColumnAndValue() displays info for jobs relating to selected category
-	both handlers implement JobData class methods to obtain data
+	list() displays table of clickable links for each job category_
+	listJobsByColumnAndValue() displays info for jobs relating to selected category_
+	both handlers implement JobData class methods to obtain data_
 
 	listJobsByColumnAndValue/() has query params for column & value
-		that fetch data from JobData
-		 "all" option fetches all job data
-		    otherwise, retrieves limited set of info
-		      then displays list-jobs.html
+		fetching data from JobData
+
+	"all" option fetches all job data
+		otherwise, retrieves limited set of info
+			then displays list-jobs.html
 
 	listJobsByColumnAndValue() also “searches” for value in field
 		then displays matching jobs
@@ -59,7 +61,7 @@ ListController --> displays either:
 
 SearchController:
 	search controller contains only search()
-	 displays form defined in the search.html template.
+	 displays form defined in search.html
 
 await instructions for second user input handler displaying search results
 
@@ -75,12 +77,12 @@ Views:
 
 	look at structure of fragments.html -- don't touch this file
 
-	Tip -- using Twitter Bootstrap (CSS, HTML, JS) framework
+	Tip --> using Twitter Bootstrap (CSS, HTML, JS) framework
 		appropriate files included atop fragments.html
-	    thus included on each app page
+	    thus included on each page
 
 	No need to explicitly use Bootstrap in this assignment
-		but makes sites look good with minimal work
+		but improves site appearance with minimal work
 
 List Views:
 
@@ -135,18 +137,18 @@ select “Kansas City” from the list of locations,
 			Thymeleaf inserts %20 for us, to represent a space
 				but may be hidden in your browser’s address bar
 
-Search View:
-	finally, click Search from home page or nav bar,
+search.html:
+	click Search on home page or nav bar
 		open search.html
-		  search form (in both browser & html file) gives user option to search
-		    by given Job field or across all fields
-		      an exact visual analog of our console app
+		  search form allows user to search
+		    across a chosen Job field or across all fields
+		      visualizing what our console app did
 
-	this template displays search results & renders form
-    this gives user nice experience to easily search multiple times
+	search.html displays search results & renders form
+    allowing user to easily search multiple times
 
 Finish Code Review:
-	understand repo controllers & views then begin working
+	understand repo controllers & views before you begin
 
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
@@ -157,17 +159,16 @@ when selecting given field to search & submit,
   our choice is forgotten & returns to “All” by default
     modify html to keep previous search field selected when displaying results
 
-in tables displaying full job data, manipulate font, style, capitalization, etc.
-  to further distinguish labels from data (e.g. Employer: LaunchCode)
+in tables displaying full job data,
+	make italic job values
 
-Hint: title string capitalized in multiple templates
-
-in tables of job results,
+in search results page,
 	make each value (except name) hyperlinked
 	  to new listing of all jobs with same value
-      for example, if a list of jobs with JS skill,
+
+      for example, if jobs list with JS skill,
         clicking on location generates new list
-          with all jobs available there
+          with all JS jobs available there
 
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
@@ -178,28 +179,27 @@ actionChoices HashMap passed to view in HomeController.index method
   HomeController is responsible for presenting actions, not the view,
     but we did not do this for nav links displayed on every page
 
-In order to similarly detach navigation links,
-	must pass actionChoices to every view,
+to similarly detach navigation links,
+	pass actionChoices to every view,
     since nav links generated in fragments.html
-	must do like line below in every handler method
-    which is a pain & error-prone & difficult to update
-	    model.addAttribute("actions", actionChoices);
+			do as line below in every handler method
+        which is tedious, error-prone & difficult to update
+	        model.addAttribute("actions", actionChoices);
 
 to fix this:
+	make TechJobsController
+	  with static HashMap actionChoices
+	    populated via no-argument constructor
+	      as columnChoices is populated in ListController
 
-	make new controller, TechJobsController
-	  having static HashMap, actionChoices
-	    populated via no-argument constructor,
-	      as columnChoices populated in ListController
+	omit @Controller annotation with this class
 
-	do not add @Controller annotation to this class
-
-	write static method getActionChoices in TechJobsController
+	write static method getActionChoices() in TechJobsController
 	  returning actions HashMap
 
-	add annotation @ModelAttribute("actions") to getActionChoices method
-	 causing method's return value to be set in model with key "actions"
-	  for each controller extending TechJobsController
+	add @ModelAttribute("actions") annotation to getActionChoices() method
+		causing return value to be set in model with key "actions"
+	    for each controller extending TechJobsController
 
 	modify all other controllers to extend TechJobsController
 

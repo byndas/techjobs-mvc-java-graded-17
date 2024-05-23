@@ -19,11 +19,13 @@ public class SearchController {
 
     @GetMapping(value = "")
     public String search(Model model) {
+//      first bonus tasks --> radio dial selection defaults to all
+        model.addAttribute("selectedType", "all");
         model.addAttribute("columns", columnChoices);
         return "search";
     }
 
-// TODO #3: create handler to process search request & render updated search view
+//TODO #3: creates handler method to process search request & render updated search view
     @PostMapping("results") // must match form action
     public String displaySearchResults(Model model, @RequestParam String searchType, @RequestParam String searchTerm) {
         ArrayList<Job> jobs;
@@ -38,6 +40,9 @@ public class SearchController {
             );
         }
         jobs = JobData.findByColumnAndValue(searchType, searchTerm);
+//      first bonus task keeps radio dial selected on search results page
+        model.addAttribute("selectedType", searchType);
+        model.addAttribute("selectedKeyword", searchTerm);
         model.addAttribute("jobs", jobs);
         return "search";
     }
