@@ -67,6 +67,44 @@ public class JobData {
         return jobs;
     }
 
+    public static ArrayList<Job> findByFilter(String column, String value, String filterColumn, String filterValue) {
+
+        loadData(); // loads data, if not already loaded
+
+        ArrayList<Job> jobs = new ArrayList<>();
+        ArrayList<Job> onceFilteredJobs = new ArrayList<>();
+
+//  value can not equal "all"
+//        if (value.toLowerCase().equals("all")) {
+//            return findAll();
+//        }
+
+        if (column.equals("all")) {
+            onceFilteredJobs = findByValue(value);
+            for (Job onceFilteredJob : onceFilteredJobs) {
+                String aValue = getFieldValue(onceFilteredJob, filterColumn);
+                if (aValue != null && aValue.toLowerCase().contains(filterValue.toLowerCase())) {
+                    jobs.add(onceFilteredJob);
+                }
+            }
+            return jobs;
+        }
+
+        for (Job job : allJobs) {
+            String aValue = getFieldValue(job, column);
+            if (aValue != null && aValue.toLowerCase().contains(value.toLowerCase())) {
+                onceFilteredJobs.add(job);
+            }
+        }
+        for (Job onceFilteredJob : onceFilteredJobs) {
+            String aValue = getFieldValue(onceFilteredJob, filterColumn);
+            if (aValue != null && aValue.toLowerCase().contains(filterValue.toLowerCase())) {
+                jobs.add(onceFilteredJob);
+            }
+        }
+        return jobs;
+    }
+
     public static String getFieldValue(Job job, String fieldName) {
         String theValue;
         if (fieldName.equals("name")){

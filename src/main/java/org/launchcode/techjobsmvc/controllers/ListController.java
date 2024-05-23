@@ -52,31 +52,37 @@ public class ListController {
         @RequestParam(required = false) String filterColumn,
         @RequestParam(required = false) String filterValue
     ) {
-//      column=coreCompetency & value=java & filter=LiveAnswer
         ArrayList<Job> jobs;
-//        System.out.println(filter);
         if (column.equals("all")) {
-            jobs = JobData.findAll();
-            model.addAttribute("title", "All Jobs");
+            if (filterValue == null || filterValue.isEmpty()) {
+                jobs = JobData.findAll();
+                model.addAttribute("title", "All Jobs");
+            }
+            else {
+                jobs = JobData.findByFilter(column, value, filterColumn, filterValue);
+                model.addAttribute(
+                    "title",
+                    value+" Jobs with "+columnChoices.get(filterColumn)+": "+filterValue
+                );
+            }
         }
         else {
-//            if (filterValue == null || filterValue.isEmpty()) {
+            if (filterValue == null || filterValue.isEmpty()) {
                 jobs = JobData.findByColumnAndValue(column, value);
                 model.addAttribute(
                     "title",
                     "Jobs with "+columnChoices.get(column)+": "+value
                 );
-//            }
-//            else {
-//                jobs = JobData.findByColumnAndValue(column, value);
-//                model.addAttribute(
-//                    "title",
-//                    "Jobs with "+columnChoices.get(column)+": "+value
-//                );
-//            }
+            }
+            else {
+                jobs = JobData.findByFilter(column, value, filterColumn, filterValue);
+                model.addAttribute(
+                    "title",
+                    "Jobs with "+columnChoices.get(column)+": "+value+" & "+filterColumn+": "+filterValue
+                );
+            }
         }
         model.addAttribute("jobs", jobs);
-
         return "list-jobs";
     }
 }
