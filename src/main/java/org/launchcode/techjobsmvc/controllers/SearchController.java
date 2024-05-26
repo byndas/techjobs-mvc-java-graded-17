@@ -11,17 +11,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 
-import static org.launchcode.techjobsmvc.controllers.ListController.columnChoices;
-
 @Controller
 @RequestMapping("search")
-public class SearchController {
+public class SearchController extends TechJobsController {
 
     @GetMapping(value = "")
     public String search(Model model) {
-//      first bonus tasks --> radio dial selection defaults to all
+//      first bonus task --> radio dial selection defaults to all
         model.addAttribute("selectedType", "all");
-        model.addAttribute("columns", columnChoices);
         return "search";
     }
 
@@ -29,7 +26,6 @@ public class SearchController {
     @PostMapping("results") // must match form action
     public String displaySearchResults(Model model, @RequestParam String searchType, @RequestParam String searchTerm) {
         ArrayList<Job> jobs;
-        model.addAttribute("columns", columnChoices);
         if (searchType.equals("all")) {
             model.addAttribute("title", "Jobs With All: "+searchTerm);
         }

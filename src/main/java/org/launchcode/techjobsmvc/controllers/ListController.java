@@ -14,18 +14,11 @@ import java.util.HashMap;
 
 @Controller
 @RequestMapping(value = "list")
-public class ListController {
+public class ListController extends TechJobsController {
 
-    static HashMap<String, String> columnChoices = new HashMap<>();
     static HashMap<String, Object> tableChoices = new HashMap<>();
 
     public ListController () {
-        columnChoices.put("all", "All");
-        columnChoices.put("employer", "Employer");
-        columnChoices.put("location", "Location");
-        columnChoices.put("positionType", "Position Type");
-        columnChoices.put("coreCompetency", "Skill");
-
         tableChoices.put("employer", JobData.getAllEmployers());
         tableChoices.put("location", JobData.getAllLocations());
         tableChoices.put("positionType", JobData.getAllPositionTypes());
@@ -34,7 +27,6 @@ public class ListController {
 
     @GetMapping(value = "")
     public String list(Model model) {
-        model.addAttribute("columns", columnChoices);
         model.addAttribute("tableChoices", tableChoices);
         model.addAttribute("employers", JobData.getAllEmployers());
         model.addAttribute("locations", JobData.getAllLocations());
@@ -53,32 +45,36 @@ public class ListController {
         @RequestParam(required = false) String filterValue
     ) {
         ArrayList<Job> jobs;
-        if (column.equals("all")) {
+
+        // needs refactoring?
+        if (column.equals("all")) { // if listing "view all" or searching "all"
+            // user arrives from "/list" page since listing lacks filterValue
             if (filterValue == null || filterValue.isEmpty()) {
                 jobs = JobData.findAll();
                 model.addAttribute("title", "All Jobs");
             }
-            else {
+            else { // user arrives from "/search" page
                 jobs = JobData.findByFilter(column, value, filterColumn, filterValue);
                 model.addAttribute(
                     "title",
-                    value+" Jobs with "+columnChoices.get(filterColumn)+": "+filterValue
+                    value+" Jobs with "+getColumnChoices().get(filterColumn)+": "+filterValue
                 );
             }
         }
-        else {
+        else { // neither listing "view all" nor searching "all"
+            // user arrives from "/list" page since listing lacks filterValue
             if (filterValue == null || filterValue.isEmpty()) {
                 jobs = JobData.findByColumnAndValue(column, value);
                 model.addAttribute(
                     "title",
-                    "Jobs with "+columnChoices.get(column)+": "+value
+                    "Jobs with "+getColumnChoices().get(column)+": "+value
                 );
             }
-            else {
+            else { // user arrives from "/search" page
                 jobs = JobData.findByFilter(column, value, filterColumn, filterValue);
                 model.addAttribute(
                     "title",
-                    "Jobs with "+columnChoices.get(column)+": "+value+" & "+filterColumn+": "+filterValue
+                    "Jobs with "+getColumnChoices().get(column)+": "+value+" & "+filterColumn+": "+filterValue
                 );
             }
         }

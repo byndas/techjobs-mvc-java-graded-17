@@ -26,10 +26,9 @@ public class JobData {
     private static ArrayList<CoreCompetency> allCoreCompetency = new ArrayList<>();
 
 
-//  return copy of all job objects in loaded data, no duplicates
+//  returns copy of all job objects in loaded data, no duplicates
     public static ArrayList<Job> findAll() {
         loadData(); // loads data, if not already loaded
-        // Bonus mission; normal version returns allJobs
         return new ArrayList<>(allJobs);
     }
     /*
@@ -72,34 +71,29 @@ public class JobData {
         loadData(); // loads data, if not already loaded
 
         ArrayList<Job> jobs = new ArrayList<>();
-        ArrayList<Job> onceFilteredJobs = new ArrayList<>();
-
-//  value can not equal "all"
-//        if (value.toLowerCase().equals("all")) {
-//            return findAll();
-//        }
+        ArrayList<Job> filteredJobs = new ArrayList<>();
 
         if (column.equals("all")) {
-            onceFilteredJobs = findByValue(value);
-            for (Job onceFilteredJob : onceFilteredJobs) {
-                String aValue = getFieldValue(onceFilteredJob, filterColumn);
+            filteredJobs = findByValue(value);
+            for (Job filteredJob : filteredJobs) {
+                String aValue = getFieldValue(filteredJob, filterColumn);
                 if (aValue != null && aValue.toLowerCase().contains(filterValue.toLowerCase())) {
-                    jobs.add(onceFilteredJob);
+                    jobs.add(filteredJob);
                 }
             }
-            return jobs;
         }
-
-        for (Job job : allJobs) {
-            String aValue = getFieldValue(job, column);
-            if (aValue != null && aValue.toLowerCase().contains(value.toLowerCase())) {
-                onceFilteredJobs.add(job);
+        else {
+            for (Job job : allJobs) {
+                String aValue = getFieldValue(job, column);
+                if (aValue != null && aValue.toLowerCase().contains(value.toLowerCase())) {
+                    filteredJobs.add(job);
+                }
             }
-        }
-        for (Job onceFilteredJob : onceFilteredJobs) {
-            String aValue = getFieldValue(onceFilteredJob, filterColumn);
-            if (aValue != null && aValue.toLowerCase().contains(filterValue.toLowerCase())) {
-                jobs.add(onceFilteredJob);
+            for (Job filteredJob : filteredJobs) {
+                String aValue = getFieldValue(filteredJob, filterColumn);
+                if (aValue != null && aValue.toLowerCase().contains(filterValue.toLowerCase())) {
+                    jobs.add(filteredJob);
+                }
             }
         }
         return jobs;
@@ -122,9 +116,10 @@ public class JobData {
         return theValue;
     }
 //  Searches all Job fields for given term
-//      @param value --> term to search
-//      @return --> all jobs with at least one field containing value
+//    @param value --> term to search
+//    @return --> all jobs with at least one field containing value
     public static ArrayList<Job> findByValue(String value) {
+
         loadData(); // loads data, if not already loaded
 
         ArrayList<Job> jobs = new ArrayList<>();
