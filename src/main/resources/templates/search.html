@@ -41,8 +41,9 @@
                 <tr>
                     <td>Employer</td>
                     <td>
+<!--                    THIRD BONUS: -->
 <!--                    <a th:href="@{'/list/jobs?column=employer&value='+${job.employer}}"-->
-<!--                       th:text="${job.employer}"></a>-->
+<!--                       th:text="${job.employer}"></a> -->
                          <a th:href="@{'/list/jobs?column='+${selectedType}+'&value='+${selectedKeyword}+'&filterColumn=employer&filterValue='+${job.employer}}"
                             th:text="${job.employer}"></a>
                     </td>
