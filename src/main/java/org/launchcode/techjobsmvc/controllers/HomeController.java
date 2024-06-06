@@ -8,7 +8,6 @@ public class HomeController extends TechJobsController {
     @GetMapping(value = "/")
     public String index() {
         // super bonus: cleaned out HomeController
-        // !!repo actionChoices never used in html template!!
         return "index";
     }
 }

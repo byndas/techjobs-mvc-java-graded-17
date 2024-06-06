@@ -46,7 +46,6 @@ public class ListController extends TechJobsController {
     ) {
         ArrayList<Job> jobs;
 
-        // needs refactoring?
         if (column.equals("all")) { // if listing "view all" or searching "all"
             // user arrives from "/list" page since listing lacks filterValue
             if (filterValue == null || filterValue.isEmpty()) {
@@ -79,6 +78,7 @@ public class ListController extends TechJobsController {
             }
         }
         model.addAttribute("jobs", jobs);
+
         return "list-jobs";
     }
 }
