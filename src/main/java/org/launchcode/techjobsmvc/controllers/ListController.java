@@ -46,33 +46,44 @@ public class ListController extends TechJobsController {
     ) {
         ArrayList<Job> jobs;
 //      THIRD BONUS:
-        if (column.equals("all")) { // if listing "view all" or searching "all"
+        if (column.equals("all")) {
+            // if listing "view all"
             // user arrives from "/list" page since listing lacks filterValue
             if (filterValue == null || filterValue.isEmpty()) {
+                // null or isEmpty() covers how Java treats param value
                 jobs = JobData.findAll();
                 model.addAttribute("title", "All Jobs");
             }
             else { // user arrives from "/search" page
+                // double filter
+                // // covers search all plus clicking search link value
+                // column is "all"
+                // value is empty string or keyword input
+                // filterColumn is search results key
+                // filterValue is search results value
                 jobs = JobData.findByFilter(column, value, filterColumn, filterValue);
                 model.addAttribute(
-                    "title",
+                    "title", // list results html tag dynamic title
                     value+" Jobs with "+getColumnChoices().get(filterColumn)+": "+filterValue
                 );
             }
         }
-        else { // neither listing "view all" nor searching "all"
-            // user arrives from "/list" page since listing lacks filterValue
+        else { // user arrives from neither "view all" nor search "all"
             if (filterValue == null || filterValue.isEmpty()) {
+                // user arrives from "/list" page since listing lacks filterValue
                 jobs = JobData.findByColumnAndValue(column, value);
+
                 model.addAttribute(
-                    "title",
+                    "title", // list results html tag dynamic title
                     "Jobs with "+getColumnChoices().get(column)+": "+value
                 );
             }
             else { // user arrives from "/search" page
+                // each parameter has a value
+                // double filter
                 jobs = JobData.findByFilter(column, value, filterColumn, filterValue);
                 model.addAttribute(
-                    "title",
+                    "title", // list results html tag dynamic title
                     "Jobs with "+getColumnChoices().get(column)+": "+value+" & "+filterColumn+": "+filterValue
                 );
             }

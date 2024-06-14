@@ -49,12 +49,10 @@ public class JobData {
         if (value.toLowerCase().equals("all")) {
             return findAll();
         }
-
         if (column.equals("all")) {
             jobs = findByValue(value);
             return jobs;
         }
-
         for (Job job : allJobs) {
             String aValue = getFieldValue(job, column);
 
@@ -62,7 +60,6 @@ public class JobData {
                 jobs.add(job);
             }
         }
-
         return jobs;
     }
 
@@ -73,8 +70,10 @@ public class JobData {
         ArrayList<Job> jobs = new ArrayList<>();
         ArrayList<Job> filteredJobs = new ArrayList<>();
 
-        if (column.equals("all")) {
+        if (column.equals("all")) { // covers search all
+            // first job filter results
             filteredJobs = findByValue(value);
+            // populates jobs with second filter results
             for (Job filteredJob : filteredJobs) {
                 String aValue = getFieldValue(filteredJob, filterColumn);
                 if (aValue != null && aValue.toLowerCase().contains(filterValue.toLowerCase())) {
@@ -82,13 +81,15 @@ public class JobData {
                 }
             }
         }
-        else {
+        else { // covers search is not all
+            // first job filter via user input column & value
             for (Job job : allJobs) {
                 String aValue = getFieldValue(job, column);
                 if (aValue != null && aValue.toLowerCase().contains(value.toLowerCase())) {
                     filteredJobs.add(job);
                 }
             }
+            // second filter
             for (Job filteredJob : filteredJobs) {
                 String aValue = getFieldValue(filteredJob, filterColumn);
                 if (aValue != null && aValue.toLowerCase().contains(filterValue.toLowerCase())) {

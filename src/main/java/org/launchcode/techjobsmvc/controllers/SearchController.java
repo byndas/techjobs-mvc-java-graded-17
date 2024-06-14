@@ -26,6 +26,7 @@ public class SearchController extends TechJobsController {
     @PostMapping("results") // must match form action
     public String displaySearchResults(Model model, @RequestParam String searchType, @RequestParam String searchTerm) {
         ArrayList<Job> jobs;
+
         if (searchType.equals("all")) {
             model.addAttribute("title", "Jobs With All: "+searchTerm);
         }
